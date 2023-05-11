@@ -1,4 +1,8 @@
-static uint8_t DataPin;
+#include "Keyboard.h"
+#include "int_pins.h"
+#include "lg2compaq.h"
+
+const uint8_t DataPin = 3, irq_pin = 2;
 
 // The ISR for the external interrupt
 void ps2interrupt(void)
@@ -22,33 +26,19 @@ void ps2interrupt(void)
 	}
 	bitcount++;
 	if (bitcount == 11) {
-		uint8_t i = head + 1;
-		if (i >= BUFFER_SIZE) i = 0;
-		if (i != tail) {
-			buffer[i] = incoming;
-			head = i;
-		}
+		on(incoming);
 		bitcount = 0;
 		incoming = 0;
 	}
 }
 
-void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &map) {
+void setup() {
+  Keyboard.begin();
   uint8_t irq_num=255;
 
-  DataPin = data_pin;
-  keymap = &map;
-
   // initialize the pins
-#ifdef INPUT_PULLUP
   pinMode(irq_pin, INPUT_PULLUP);
-  pinMode(data_pin, INPUT_PULLUP);
-#else
-  pinMode(irq_pin, INPUT);
-  digitalWrite(irq_pin, HIGH);
-  pinMode(data_pin, INPUT);
-  digitalWrite(data_pin, HIGH);
-#endif
+  pinMode(DataPin, INPUT_PULLUP);
 
 #ifdef CORE_INT_EVERY_PIN
   irq_num = irq_pin;
@@ -178,11 +168,9 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
   }
 #endif
 
-  head = 0;
-  tail = 0;
   if (irq_num < 255) {
     attachInterrupt(irq_num, ps2interrupt, FALLING);
   }
 }
-
-
+void loop() {
+}
