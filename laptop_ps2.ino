@@ -23,15 +23,55 @@ void ps2interrupt() {
   }
 }
 
+struct btn {
+  uint8_t pin;
+  char key;
+  btn(uint8_t p, char k) {
+    pin = p;
+    key = k;
+  }
+  void setup() {
+    pinMode(pin, INPUT_PULLUP);
+  }
+  uint16_t buf = 0;
+  bool up = false;
+  void loop() {
+    buf = (buf << 1) | (digitalRead(pin) == LOW ? 1 : 0);
+    switch ((buf << 1) | up) {
+      case 0b11111111111111110:
+        Keyboard.press(key);
+        up = true;
+        return;
+      case 0b00000000000000001:
+        Keyboard.release(key);
+        up = false;
+        return;
+    }
+  }
+};
+#define cnt 6
+btn btns[cnt] = {
+  { 13, KEY_LEFT_CTRL },
+  { 12, KEY_LEFT_SHIFT },
+  //{11, Fn},
+  { 10, KEY_LEFT_ALT },
+  { 9, KEY_RIGHT_CTRL },
+  { 8, KEY_RIGHT_ALT },
+  { 7, KEY_RIGHT_SHIFT },
+};
+
+int i;
 void setup() {
   Keyboard.begin();
   // initialize the pins
   pinMode(irq_pin, INPUT_PULLUP);
   pinMode(DataPin, INPUT_PULLUP);
   auto irq_num = get_irq_num(irq_pin);
-  if (irq_num < 255) {
+  if (irq_num < 255)
     attachInterrupt(irq_num, ps2interrupt, FALLING);
-  }
+  for (i = 0; i < cnt; i++) btns[i].setup();
 }
 void loop() {
+  delay(1);
+  for (i = 0; i < cnt; i++) btns[i].loop();
 }
