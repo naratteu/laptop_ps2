@@ -14,7 +14,7 @@ char remap(uint8_t incoming, bool ex) {
     case 108: return '\\';
     case 13: return KEY_ESC;
     case 88: return 'b';
-    case 4: return '-';
+    case 102: return '-';
     case 44: return KEY_END;
     case 53: return 'n';
     case 91: return KEY_F12;
@@ -24,7 +24,7 @@ char remap(uint8_t incoming, bool ex) {
     case 107: return KEY_RIGHT_ARROW;
     case 28: return 'd';
     case 27: return '4';
-    case 35: return ';';
+    case 93: return ';';
     case 43: return 'k';
     case 59: return '7';
     case 66: return '[';
@@ -35,7 +35,7 @@ char remap(uint8_t incoming, bool ex) {
     case 105: return '=';
     case 118: return 'e';
     case 97: return 'r';
-    case 12: return 'p';
+    case 120: return 'p';
     case 52: return 'i';
     case 51: return 'u';
     case 11: return KEY_MENU;
@@ -45,7 +45,7 @@ char remap(uint8_t incoming, bool ex) {
     case 41: return KEY_DELETE;
     case 26: return KEY_F1;
     case 34: return 'g';
-    case 33: return ']';
+    case 90: return ']';
     case 42: return KEY_PAGE_DOWN;
     case 58: return 'h';
     case 65: return KEY_BACKSPACE;
@@ -55,7 +55,7 @@ char remap(uint8_t incoming, bool ex) {
     case 119: return KEY_LEFT_ARROW;
     case 103: return '3';
     case 100: return 'f';
-    case 19: return '0';
+    case 7: return '0';
     case 50: return '8';
     case 49: return 'j';
     case 81: return KEY_F10;
@@ -66,7 +66,7 @@ char remap(uint8_t incoming, bool ex) {
     case 114 | EX: return KEY_F9;
     case 14: return KEY_TAB;
     case 5: return 'v';
-    case 6: return KEY_F8;
+    case 1: return KEY_F8;
     case 46: return KEY_F7;
     case 54: return 'm';
     case 85: return KEY_F11;
@@ -76,7 +76,7 @@ char remap(uint8_t incoming, bool ex) {
     case 113 | EX: return KEY_PAGE_UP;
     case 22: return KEY_F5;
     case 30: return '5';
-    case 38: return '/';
+    case 9: return '/';
     case 37: return '\'';
     case 61: return '6';
     case 62: return KEY_UP_ARROW;
